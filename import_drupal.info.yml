@@ -1,0 +1,8 @@
+type: module
+name: Import From Drupal
+description: 'Migrate data from another Drupal 8 site that uses JSON API.'
+package: Migration
+core: 8.x
+dependencies:
+  - migrate_plus
+  - migrate_tools

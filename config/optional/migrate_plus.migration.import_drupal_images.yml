@@ -1,0 +1,92 @@
+# Migration configuration for imported images.
+id: import_drupal_images
+label: Import images from Drupal
+migration_group: Drupal Import
+migration_dependencies: {}
+
+migration_group: Drupal Import
+migration_dependencies: {}
+dependencies:
+  enforced:
+    module:
+      - import_drupal
+
+destination:
+  plugin: entity:file
+
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+  constants:
+    source_base_path: 'http://demodrupal8.dev:8008/'
+
+  urls: http://demodrupal8.dev:8008/api/node/article?_format=api_json&fields[node--article]=nid,title,field_image&include=field_image
+
+  ids:
+    id:
+      type: string
+
+  item_selector: included/
+
+  fields:
+    -
+      name: id
+      label: 'id'
+      selector: /data/id
+    -
+      name: fid
+      label: 'fid'
+      selector: /data/attributes/fid
+    -
+      name: uuid
+      label: 'uuid'
+      selector: /data/attributes/uuid
+    -
+      name: filename
+      label: 'filename'
+      selector: /data/attributes/filename
+    -
+      name: status
+      label: 'status'
+      selector: /data/attributes/status
+    -
+      name: timestamp
+      label: 'timestamp'
+      selector: /data/attributes/timestamp
+    -
+      name: uid
+      label: 'uid'
+      selector: /data/attributes/uid
+    -
+      name: uri
+      label: 'Uri'
+      selector: /data/attributes/uri
+    -
+      name: url
+      label: 'Url'
+      selector: /data/attributes/url
+
+process:
+
+  filename: filename
+  filemime: filemime
+  status: status
+  created: timestamp
+  changed: timestamp
+  uid: uid
+  uuid: id
+
+  source_full_path:
+    plugin: concat
+    delimiter: /
+    source:
+      - 'constants/source_base_path'
+      - url
+  uri:
+    plugin: download
+    source:
+      - '@source_full_path'
+      - uri
+    guzzle_options:
+      base_uri: 'constants/source_base_path'

@@ -1,0 +1,8 @@
+<?php
+/**
+ * Implements hook_uninstall().
+ */
+function import_drupal_uninstall() {
+  db_query("DELETE FROM {config} WHERE name LIKE 'migrate.migration.import_drupal%'");
+  drupal_flush_all_caches();
+}

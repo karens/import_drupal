@@ -1,0 +1,120 @@
+# Migration configuration for imported articles.
+id: import_drupal_articles
+label: Import articles from Drupal
+migration_group: Drupal Import
+migration_dependencies:
+  require:
+    - import_drupal_images
+dependencies:
+  enforced:
+    module:
+      - import_drupal
+
+destination:
+  plugin: entity:node
+
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+
+  urls: http://demodrupal8.dev:8008/api/node/article?_format=api_json
+
+  ids:
+    nid:
+      type: integer
+
+  item_selector: data/
+
+  fields:
+    -
+      name: nid
+      label: 'Nid'
+      selector: /attributes/nid
+    -
+      name: vid
+      label: 'Vid'
+      selector: /attributes/vid
+    -
+      name: uuid
+      label: 'Uuid'
+      selector: /attributes/uuid
+    -
+      name: title
+      label: 'Title'
+      selector: /attributes/title
+    -
+      name: created
+      label: 'Created'
+      selector: /attributes/created
+    -
+      name: changed
+      label: 'Changed'
+      selector: /attributes/changed
+    -
+      name: status
+      label: 'Status'
+      selector: /attributes/status
+    -
+      name: sticky
+      label: 'Sticky'
+      selector: /attributes/sticky
+    -
+      name: promote
+      label: 'Promote'
+      selector: /attributes/promote
+    -
+      name: default_langcode
+      label: 'Default Langcode'
+      selector: /attributes/default_langcode
+    -
+      name: path
+      label: 'Path'
+      selector: /attributes/path
+    -
+      name: body
+      label: 'Body'
+      selector: /attributes/body
+    -
+      name: uid
+      label: 'Uid'
+      selector: /relationships/uid
+    -
+      name: field_image
+      label: 'Field image'
+      selector: /relationships/field_image
+
+process:
+  type:
+    plugin: default_value
+    default_value: article
+
+  uuid: uuid
+  title: title
+  created: created
+  changed: changed
+  status: status
+  sticky: sticky
+  promote: promote
+  default_language: default_language
+  path: path
+
+  body/value:
+    plugin: extract
+    source: body
+    index:
+      - value
+  body/format:
+    plugin: extract
+    source: body
+    index:
+      - format
+
+  field_image:
+    plugin: migration
+    migration: import_drupal_images
+    source: field_image/data/id
+
+  uid:
+    plugin: default_value
+    default_value: 1
