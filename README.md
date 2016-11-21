@@ -22,13 +22,13 @@ Copy the Drupal Import module (this module) into your module repository. Edit th
 The primary path used for our migration is:
 
 ```
-http(s)://source-site.com/api/node/article?_format=api_json
+http(s)://SOURCE-SITE.COM/api/node/article?_format=api_json
 ```
 
 This will display a JSON feed of all articles. The articles have related entities. The field_image field points to related images, and the uid/author field points to related users. To view the related images, we can alter the path as follows:
 
 ```
-http(s)://source-site.com/api/node/article?_format=api_json&include=field_image
+http(s)://SOURCE-SITE.COM/api/node/article?_format=api_json&include=field_image
 ```
 
 That will add an 'included' array to the feed that contains all the details about each of the related images.
