@@ -1,6 +1,6 @@
 # Import From Drupal
 
-This is a module that is designed as an example of how to import nodes and images from a Drupal 8 site.
+This is a module that is designed as an example of how to import nodes and images from a Drupal 8 site by pulling in data from a JSON feed. Much of this would be useful and relevant for pulling content in from any other JSON source.
 
 ## Prepare the Source Site
 There is not much preparation needed. It should be a Drupal 8 site with an 'article' content type that has a body and 'field_image' image field.
@@ -65,6 +65,6 @@ You can rollback and try again.
 drush migrate-rollback import_drupal_images
 ```
 
-It is important to note is that if you alter the YAML files after you first install the module, you'll have to uninstall and then reinstall the module to get Migrate to see the YAML changes.
+It is important to note that if you alter the YAML files after you first install the module, you'll have to uninstall and then reinstall the module to get Migrate to see the YAML changes.
 
 There is more information about the [Migrate API on Drupal.org](https://www.drupal.org/docs/8/api/migrate-api/migrate-api-overview).
