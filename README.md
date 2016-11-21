@@ -5,9 +5,9 @@ This is a module that is designed as an example of how to import nodes and image
 ## Prepare the Source Site
 There is not much preparation needed. It should be a Drupal 8 site with an 'article' content type that has a body and 'field_image' image field.
 
-Download and install the [JSON API](https://www.drupal.org/project/jsonapi) module. Navigate to a url like http://remotesite.com/api/node/article?_format=api_json and confirm that JSON is being output at that url.
+Download and install the [JSON API](https://www.drupal.org/project/jsonapi) module. Navigate to a url like http://source-site.com/api/node/article?_format=api_json and confirm that JSON is being output at that url.
 
-That's if for the source.
+That's it for the source.
 
 ## Prepare the Target Site
 
