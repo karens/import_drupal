@@ -5,7 +5,7 @@ This is a module that is designed as an example of how to import nodes and image
 ## Prepare the Source Site
 There is not much preparation needed. It should be a Drupal 8 site with an 'article' content type that has a body and 'field_image' image field.
 
-Download and install the [JSON API](https://www.drupal.org/project/jsonapi) module. Navigate to a url like http://source-site.com/api/node/article?_format=api_json and confirm that JSON is being output at that url.
+Download and install the [JSON API](https://www.drupal.org/project/jsonapi) module. Navigate to a url like http://source-site.com/jsonapi/node/article?_format=api_json and confirm that JSON is being output at that url.
 
 That's it for the source.
 
@@ -22,13 +22,13 @@ Copy the Drupal Import module (this module) into your module repository. Edit th
 The primary path used for our migration is:
 
 ```
-http(s)://SOURCE-SITE.COM/api/node/article?_format=api_json
+http(s)://SOURCE-SITE.COM/jsonapi/node/article?_format=api_json
 ```
 
 This will display a JSON feed of all articles. The articles have related entities. The field_image field points to related images, and the uid/author field points to related users. To view the related images, we can alter the path as follows:
 
 ```
-http(s)://SOURCE-SITE.COM/api/node/article?_format=api_json&include=field_image
+http(s)://SOURCE-SITE.COM/jsonapi/node/article?_format=api_json&include=field_image
 ```
 
 That will add an 'included' array to the feed that contains all the details about each of the related images.
