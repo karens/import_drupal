@@ -21,7 +21,7 @@ source:
   constants:
     source_base_path: 'http://SOURCE-SITE.COM/'
 
-  urls: http://SOURCE-SITE.COM/api/node/article?_format=api_json&fields[node--article]=nid,title,field_image&include=field_image
+  urls: http://SOURCE-SITE.COM/jsonapi/node/article?_format=api_json&fields[node--article]=nid,title,field_image&include=field_image
 
   ids:
     id:
