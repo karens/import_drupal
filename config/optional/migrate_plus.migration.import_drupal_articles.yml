@@ -18,7 +18,7 @@ source:
   data_fetcher_plugin: http
   data_parser_plugin: json
 
-  urls: http://SOURCE-SITE.COM/api/node/article?_format=api_json
+  urls: http://SOURCE-SITE.COM/jsonapi/node/article?_format=api_json
 
   ids:
     nid:
