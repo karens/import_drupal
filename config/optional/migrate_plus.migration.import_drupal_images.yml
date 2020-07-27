@@ -2,17 +2,13 @@
 id: import_drupal_images
 label: Import images from Drupal
 migration_group: Drupal Import
+
 migration_dependencies: {}
 
-migration_group: Drupal Import
-migration_dependencies: {}
 dependencies:
   enforced:
     module:
       - import_drupal
-
-destination:
-  plugin: entity:file
 
 source:
   plugin: url
@@ -20,6 +16,7 @@ source:
   data_parser_plugin: json
   constants:
     source_base_path: 'http://SOURCE-SITE.COM/'
+    folder_destination: 'public://images/articles'
 
   urls: http://SOURCE-SITE.COM/jsonapi/node/article?fields[node--article]=nid,title,field_image&include=field_image
 
@@ -33,60 +30,56 @@ source:
     -
       name: id
       label: 'id'
-      selector: /data/id
+      selector: id
     -
-      name: fid
-      label: 'fid'
-      selector: /data/attributes/fid
+      name: created
+      label: 'Created'
+      selector: attributes/created
     -
-      name: uuid
-      label: 'uuid'
-      selector: /data/attributes/uuid
-    -
-      name: filename
-      label: 'filename'
-      selector: /data/attributes/filename
+      name: changed
+      label: 'Changed'
+      selector: attributes/changed
     -
       name: status
-      label: 'status'
-      selector: /data/attributes/status
-    -
-      name: timestamp
-      label: 'timestamp'
-      selector: /data/attributes/timestamp
-    -
-      name: uid
-      label: 'uid'
-      selector: /data/attributes/uid
-    -
-      name: uri
-      label: 'Uri'
-      selector: /data/attributes/uri
+      label: 'Status'
+      selector: attributes/status
     -
       name: url
-      label: 'Url'
-      selector: /data/attributes/url
+      label: 'url'
+      selector: attributes/uri/url
 
 process:
-
-  filename: filename
-  filemime: filemime
+  created: created
+  changed: changed
   status: status
-  created: timestamp
-  changed: timestamp
-  uid: uid
-  uuid: id
-
-  source_full_path:
-    plugin: concat
-    delimiter: /
-    source:
-      - 'constants/source_base_path'
-      - url
+  
+  psf_destination_filename:
+    - plugin: callback
+      callable: basename
+      source: url
+    - plugin: skip_on_empty
+      method: row
+      message: 'Cannot import empty image filename.'
+  psf_destination_full_path:
+    - plugin: concat
+      source:
+        - constants/folder_destination
+        - '@psf_destination_filename'
+    - plugin: urlencode
+  psf_source_image_path:
+    - plugin: concat
+      delimiter: '/'
+      source:
+        - constants/source_base_path
+        - url
+    - plugin: urlencode
   uri:
-    plugin: download
+    plugin: file_copy
     source:
-      - '@source_full_path'
-      - uri
-    guzzle_options:
-      base_uri: 'constants/source_base_path'
+      - '@psf_source_image_path'
+      - '@psf_destination_full_path'
+    file_exists: 'rename'
+    move: FALSE
+
+destination:
+  plugin: entity:file
